@@ -1,11 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View,TextInput,Alert, Button ,borderRadius,TouchableOpacity} from 'react-native';
-
+import {LinearGradient} from 'expo';
 
 export default class Category extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {isSelected:null};
+    this.state = {
+      isSelectedScope:null,
+      isSelectedDestination:null
+    };
   }
 
   static navigationOptions = {
@@ -17,47 +20,53 @@ export default class Category extends React.Component {
 
   render() {
    
-    return (
-        <View style={styles.container}>
+    return (<LinearGradient colors={['#eac6f2','#9f9ff2']}  style={styles.container}>
+        
          
           <View style={styles.section1}>
-            <Text style={styles.title}>어디가지?</Text>
+            <Text style={styles.title}>Title</Text>
           </View>
           
           <View style={styles.section2}> 
-            <Text style={styles.currentPositionText}>현재위치 : 도봉구 도봉동 도봉산역</Text>
+            <Text style={styles.currentPositionText}>현재위치 : 도봉구 도봉동 도봉산역 으로부터</Text>
             <View style={styles.scopeButtonWrap}>
                 <TouchableOpacity
-                   style={(this.state.isSelected==1)?styles.scopeButtonSelected:styles.scopeButton}
-                   onPress={()=>{this.setState({isSelected:1})}}>
+                   style={(this.state.isSelectedScope==1)?styles.scopeButtonSelected:styles.scopeButton}
+                   onPress={()=>{this.setState({isSelectedScope:1})}}>
                    <Text>400m</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                   style={(this.state.isSelected==2)?styles.scopeButtonSelected:styles.scopeButton}
-                   onPress={()=>{this.setState({isSelected:2})}}>
+                   style={(this.state.isSelectedScope==2)?styles.scopeButtonSelected:styles.scopeButton}
+                   onPress={()=>{this.setState({isSelectedScope:2})}}>
                    <Text>800m</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                   style={(this.state.isSelected==3)?styles.scopeButtonSelected:styles.scopeButton}
-                   onPress={()=>{this.setState({isSelected:3})}}>
+                   style={(this.state.isSelectedScope==3)?styles.scopeButtonSelected:styles.scopeButton}
+                   onPress={()=>{this.setState({isSelectedScope:3})}}>
                    <Text>1500m</Text>
                 </TouchableOpacity>
             </View>
 
             <View style={styles.categoryButtonWrap}>
                 <TouchableOpacity
-                   style={styles.categoryButton}
-                   onPress={this._onPressButton}>
+                   style={(this.state.isSelectedDestination=='cafe')?styles.categoryButtonSelected:styles.categoryButton}
+                   onPress={
+                    ()=>{this.setState({isSelectedDestination:'cafe'})}
+                   }>
                    <Text>카페</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                   style={styles.categoryButton}
-                   onPress={this._onPressButton}>
+                   style={(this.state.isSelectedDestination=='restaurant')?styles.categoryButtonSelected:styles.categoryButton}
+                   onPress={
+                    ()=>{this.setState({isSelectedDestination:'restaurant'})}
+                   }>
                    <Text>레스토랑</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                   style={styles.categoryButton}
-                   onPress={this._onPressButton}>
+                   style={(this.state.isSelectedDestination=='bar')?styles.categoryButtonSelected:styles.categoryButton}
+                   onPress={
+                    ()=>{this.setState({isSelectedDestination:'bar'})}
+                   }>
                    <Text>바</Text>
                 </TouchableOpacity>
             </View>
@@ -72,7 +81,7 @@ export default class Category extends React.Component {
             </TouchableOpacity>
             </View>
           </View>
-      </View>
+      </LinearGradient>
     );
   }
 }
@@ -106,13 +115,13 @@ const styles = StyleSheet.create({
     margin:20
   },
   scopeButton:{
-    backgroundColor: 'pink',
+    backgroundColor: '#c5c7f1',
     padding: 20,
     margin:20,
     borderRadius:25
   },
   scopeButtonSelected:{
-    backgroundColor: 'red',
+    backgroundColor: '#c4f0ef',
     padding: 20,
     margin:20,
     borderRadius:25
@@ -129,13 +138,19 @@ const styles = StyleSheet.create({
     margin:30
   },
   categoryButton:{
-    backgroundColor: 'pink',
+    backgroundColor: '#c5c7f1',
+    padding: 20,
+    margin:20,
+    borderRadius:25
+  },
+  categoryButtonSelected:{
+    backgroundColor: '#c4f0ef',
     padding: 20,
     margin:20,
     borderRadius:25
   },
   randomButton:{
-    backgroundColor: 'pink',
+    backgroundColor: '#eac6f2',
     padding: 20,
     margin:20,
     borderRadius:25
