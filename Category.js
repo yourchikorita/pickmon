@@ -7,28 +7,46 @@ export default class Category extends React.Component {
     super(props);
     this.state = {
       isSelectedScope:null,
-      isSelectedDestination:null
+      isSelectedDestination:null,
+      addressName:null
     };
   }
 
-  static navigationOptions = {
+    static navigationOptions = {
     title: 'Category',
-  };
+     };
 
+   componentDidMount(){
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        this.getAddress(position.coords.latitude,position.coords.longitude)
+      }
+      );
+    }
 
-  
+    getAddress(lat,long){
+    return fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&language=ko&key=AIzaSyBvDaOsK-zIfGOg92DbiDrgKeiFsROad1w`)
+    .then((responseJson) => {
+        return responseJson.json();
+    })
+    .then((responseJson) => {
+      this.setState({addressName:responseJson.results[2].formatted_address});
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+    }
 
   render() {
    
-    return (<LinearGradient colors={['#eac6f2','#9f9ff2']}  style={styles.container}>
-        
-         
+   return (
+      <LinearGradient colors={['#eac6f2','#9f9ff2']}  style={styles.container}>
           <View style={styles.section1}>
-            <Text style={styles.title}>Title</Text>
+            <Text style={styles.title}>Pickmon</Text>
           </View>
           
           <View style={styles.section2}> 
-            <Text style={styles.currentPositionText}>현재위치 : 도봉구 도봉동 도봉산역 으로부터</Text>
+            <Text style={styles.currentPositionText}>현재 위치 : {this.state.addressName} 으로부터</Text>
             <View style={styles.scopeButtonWrap}>
                 <TouchableOpacity
                    style={(this.state.isSelectedScope==1)?styles.scopeButtonSelected:styles.scopeButton}
