@@ -12,7 +12,8 @@ export default class Category extends React.Component {
       currentLatitude:null,
       currentLongitude:null,
       destinationPosition:null,
-      photoReference:'ttttttfirst'
+      photoReference:null,
+      photoLink:null
      
     };
   }
@@ -23,7 +24,7 @@ export default class Category extends React.Component {
     
      };
 
-   componentDidMount(){
+    componentDidMount(){
     navigator.geolocation.getCurrentPosition(
       position => {
         this.getAddress(position.coords.latitude,position.coords.longitude);
@@ -52,51 +53,49 @@ export default class Category extends React.Component {
     })
     .then((responseJson) => {
       this.setState({destinationPosition:responseJson.results[2].formatted_address});
-      console.log('getDestinationAddress 안..!!!!!',this.state.destinationPosition);
+     // console.log('getDestinationAddress 안..!!!!!',this.state.destinationPosition);
     })
     .catch((error) => {
       console.error(error);
     });
     }
 
-    //location 으로부터 radius안에 type의 결과를 배열로 보여줌,,이미지없으면 없는이미지..
-    getplaces(lat,long,radius,type){
-      return fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${long}&radius=${radius}&type=${type}&key=AIzaSyAP6HlsLehFy7XvVVImDzPcSQdMIYtnzug`)
-    .then((response) => {
-      return response.json();
-    }).
-    then((responseJson)=>{
-       console.log('getplace 속#########################');
- 
-       var placeArray = responseJson.results;
-       var pickOneRandom = this.random_item(placeArray);
-       var pickOneRandomPlaceName = pickOneRandom.name;
-       var lat = pickOneRandom.geometry.location.lat;
-       var long=pickOneRandom.geometry.location.lng;
-    this.getDestinationAddress(lat,long);
+    //현재위치 으로부터 radius안에 type의 결과를 배열로 보여줌,,이미지없으면 없는이미지..
+    async getplaces(lat,long,radius,type){
+      try{
+         const response = await fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${long}&radius=${radius}&type=${type}&key=AIzaSyAP6HlsLehFy7XvVVImDzPcSQdMIYtnzug`);
+         const responseJson = await response.json();
+        
+         var placeArray = responseJson.results;
+         var pickOneRandom = this.random_item(placeArray);
+         var pickOneRandomPlaceName = pickOneRandom.name;
+         var lat = pickOneRandom.geometry.location.lat;
+         var long=pickOneRandom.geometry.location.lng;
+         var isPhoto = pickOneRandom.photos;
+         console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',pickOneRandom);
+       //  console.log('isPhoto&&&&&&&&&&&&&&&',isPhoto);
+         (isPhoto !== undefined) ? 
+         this.setState({photoReference:isPhoto[0].photo_reference,photoLink:isPhoto[0].html_attributions[0]})  :
+         this.setState({photoReference:'사진이없어요'})
+
        
+         await this.getDestinationAddress(lat,long);
 
-       (pickOneRandom.photos == undefined) ? 
-       this.setState({photoReference:'사진없음'}) : 
-       this.setState({photoReference:pickOneRandom.photos[0].photo_reference})
-   
-       this.props.navigation.navigate('SearchResult',{
-        currentAddressName:this.state.myCurrentPosition,
-        name:pickOneRandomPlaceName,
-        selectedRadius:this.state.isSelectedRadius,
-        selectedDestination:this.state.isSelectedDestination,
-        lat:lat,
-        destinationAddress: this.state.destinationPosition,
-        photoReference:this.state.photoReference
-       
+         
+         this.props.navigation.navigate('SearchResult',{
+         currentAddressName:this.state.myCurrentPosition,
+         name:pickOneRandomPlaceName,
+         selectedRadius:this.state.isSelectedRadius,
+         selectedDestination:this.state.isSelectedDestination,
+         lat:lat,
+         destinationPosition:this.state.destinationPosition,
+         photoReference:this.state.photoReference,
+         photoLink:this.state.photoLink,
+         });
 
-        });
- console.log('끝난부분#########################');
-
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+       }catch(err){  
+        console.log('fetch failed',err);
+       }
     }
 
     random_item(items){
