@@ -77,16 +77,14 @@ export default class Category extends React.Component {
          var long=pickOneRandom.geometry.location.lng;
          var isPhoto = pickOneRandom.photos;
          var pickOneRandomPlaceId = pickOneRandom.place_id;
-         console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',pickOneRandom);
-       //  console.log('isPhoto&&&&&&&&&&&&&&&',isPhoto);
+         
+      
          (isPhoto !== undefined) ? 
          this.setState({photoReference:isPhoto[0].photo_reference,photoLink:isPhoto[0].html_attributions[0]})  :
          this.setState({photoReference:'사진이없어요'})
 
-       
          await this.getDestinationAddress(lat,long);
 
-         
          this.props.navigation.navigate('SearchResult',{
          currentAddressName:this.state.myCurrentPosition,
          name:pickOneRandomPlaceName,
@@ -178,7 +176,7 @@ export default class Category extends React.Component {
                 ()=>{
                    (this.state.isSelectedScope !==null && this.state.isSelectedDestination !== null) ?
                    this.getplaces(this.state.currentLatitude,this.state.currentLongitude,this.state.isSelectedRadius,this.state.isSelectedDestination) :
-                   Alert.alert('선택해주세요')
+                   Alert.alert('선택 해주세요')
                  }
 
               }>
@@ -195,26 +193,21 @@ export default class Category extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#d6e5fc'
+    backgroundColor: '#d6e5fc',
   },
   titleImage:{
-   
    flex:4,
    marginTop:90,
-
   },
   section1:{
     display:'flex',
     justifyContent:'center',
     alignItems:'center',
     flex:2,
-   
   },
   section2:{
     flex:2,
-    
     justifyContent:'center'
-    
   },
   section3:{
     flex:1
@@ -222,7 +215,6 @@ const styles = StyleSheet.create({
   title:{
     flex:1,
     fontSize:30,
-
   },
   currentPositionText:{
     textAlign:'center',
