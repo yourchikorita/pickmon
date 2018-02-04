@@ -7,7 +7,7 @@ export default class NoResult extends React.Component {
    
     return (
       <View style={styles.container}>
-        <Text >도봉역으로부터 300m내 카페 가 없습니다.</Text>
+        <Text >도봉역으로부터 350m내 카페 가 없습니다.</Text>
         <TouchableOpacity
                    style={styles.homeButton}
                    >

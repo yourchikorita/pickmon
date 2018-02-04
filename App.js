@@ -6,7 +6,6 @@ import SearchResult from './SearchResult';
 import ShowMap from './ShowMap';
 
 const ShowApp = StackNavigator({
-
   Category :{screen : Category},
   SearchResult:{screen : SearchResult},
   ShowMap :{screen : ShowMap},

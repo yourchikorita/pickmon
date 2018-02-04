@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,TextInput,Alert, Button ,borderRadius,TouchableOpacity,Image} from 'react-native';
+import { StyleSheet, Text, View,TextInput,Alert, Button ,borderRadius,TouchableOpacity,Image,ActivityIndicator} from 'react-native';
 import {LinearGradient} from 'expo';
 
 export default class Category extends React.Component {
@@ -53,7 +53,6 @@ export default class Category extends React.Component {
     })
     .then((responseJson) => {
       this.setState({destinationPosition:responseJson.results[2].formatted_address});
-     // console.log('getDestinationAddress 안..!!!!!',this.state.destinationPosition);
     })
     .catch((error) => {
       console.error(error);
@@ -65,13 +64,19 @@ export default class Category extends React.Component {
       try{
          const response = await fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${long}&radius=${radius}&type=${type}&key=AIzaSyAP6HlsLehFy7XvVVImDzPcSQdMIYtnzug`);
          const responseJson = await response.json();
-        
+        console.log(responseJson);
+        console.log(responseJson.results.length);
+        (responseJson.results.length == 0 ) ?
+        Alert.alert('해당 범위 내 선택한 장소가 없습니다') :
+         <ActivityIndicator size="large" color="#0000ff" /> ; 
+
          var placeArray = responseJson.results;
          var pickOneRandom = this.random_item(placeArray);
          var pickOneRandomPlaceName = pickOneRandom.name;
          var lat = pickOneRandom.geometry.location.lat;
          var long=pickOneRandom.geometry.location.lng;
          var isPhoto = pickOneRandom.photos;
+         var pickOneRandomPlaceId = pickOneRandom.place_id;
          console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^',pickOneRandom);
        //  console.log('isPhoto&&&&&&&&&&&&&&&',isPhoto);
          (isPhoto !== undefined) ? 
@@ -88,9 +93,11 @@ export default class Category extends React.Component {
          selectedRadius:this.state.isSelectedRadius,
          selectedDestination:this.state.isSelectedDestination,
          lat:lat,
+         lng:long,
          destinationPosition:this.state.destinationPosition,
          photoReference:this.state.photoReference,
          photoLink:this.state.photoLink,
+         placeId: pickOneRandomPlaceId,
          });
 
        }catch(err){  
@@ -105,7 +112,7 @@ export default class Category extends React.Component {
   render() {
    
    return (
-      <LinearGradient colors={['#eac6f2','#9f9ff2']}  style={styles.container}>
+      <LinearGradient colors={['#e6c5f1','#9f9ff2']}  style={styles.container}>
           <View style={styles.section1}>
              <Image  resizeMode="contain" style={styles.titleImage} source={require('./assets/icon.png')}/>
              <Text style={styles.title}>Pickmon</Text>
@@ -152,6 +159,13 @@ export default class Category extends React.Component {
                     ()=>{this.setState({isSelectedDestination:'bar'})}
                    }>
                    <Text>bar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                   style={(this.state.isSelectedDestination=='atm')?styles.categoryButtonSelected:styles.categoryButton}
+                   onPress={
+                    ()=>{this.setState({isSelectedDestination:'atm'})}
+                   }>
+                   <Text>atm</Text>
                 </TouchableOpacity>
             </View>
           </View>
