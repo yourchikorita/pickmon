@@ -13,7 +13,8 @@ export default class Category extends React.Component {
       currentLongitude:null,
       destinationPosition:null,
       photoReference:null,
-      photoLink:null
+      photoLink:null,
+      isLoad:false
      
     };
   }
@@ -40,6 +41,7 @@ export default class Category extends React.Component {
     })
     .then((responseJson) => {
       this.setState({myCurrentPosition:responseJson.results[2].formatted_address});
+      this.setState({isLoad:true});
     })
     .catch((error) => {
       console.error(error);
@@ -108,6 +110,9 @@ export default class Category extends React.Component {
     }
 
   render() {
+    
+   var myActivityIndicator =  <ActivityIndicator size="large" color="#0000ff" />;
+   var myCurrentLocation = <Text style={styles.currentPositionText}>현재 위치 : {this.state.myCurrentPosition} 으로부터</Text>;
    
    return (
       <LinearGradient colors={['#e6c5f1','#9f9ff2']}  style={styles.container}>
@@ -117,7 +122,8 @@ export default class Category extends React.Component {
           </View>
           
           <View style={styles.section2}> 
-            <Text style={styles.currentPositionText}>현재 위치 : {this.state.myCurrentPosition} 으로부터</Text>
+          {this.state.isLoad == true ? myCurrentLocation : myActivityIndicator}
+            
             <View style={styles.scopeButtonWrap}>
                 <TouchableOpacity
                    style={(this.state.isSelectedRadius==350)?styles.scopeButtonSelected:styles.scopeButton}
