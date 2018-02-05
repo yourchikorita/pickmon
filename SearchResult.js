@@ -16,8 +16,8 @@ export default class SearchResult extends React.Component {
   };
 
   render() {
-   console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-   console.log('여기의 props들,,,',this.props.navigation.state.params);
+  
+   //console.log('여기의 props들,,,',this.props.navigation.state.params);
    var currentAddressName = this.props.navigation.state.params.currentAddressName;
    var pickOneRandomPlaceName = this.props.navigation.state.params.name;
 
@@ -51,7 +51,6 @@ export default class SearchResult extends React.Component {
                    onPress={this._handlePress}>
                    <Text >길찾기</Text>
           </TouchableOpacity>
-        
           </View>
         </View>
       </LinearGradient>
@@ -92,7 +91,6 @@ const styles = StyleSheet.create({
   },
   searchResultImage:{
     flex:1,
-    
     justifyContent:'center'
 
   }

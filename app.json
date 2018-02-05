@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "random-choice",
+    "name": "pickmon",
     "description": "This project is really great.",
-    "slug": "random-choice",
+    "slug": "pickmon",
     "privacy": "public",
     "sdkVersion": "25.0.0",
     "platforms": ["ios", "android"],
@@ -16,6 +16,9 @@
     },
     "ios": {
       "supportsTablet": true
+    },
+    "android" : {
+      "package" : "com.jeonjeong.pickmon"
     }
   }
 }

@@ -64,8 +64,8 @@ export default class Category extends React.Component {
       try{
          const response = await fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${long}&radius=${radius}&type=${type}&key=AIzaSyAP6HlsLehFy7XvVVImDzPcSQdMIYtnzug`);
          const responseJson = await response.json();
-        console.log(responseJson);
-        console.log(responseJson.results.length);
+      
+        
         (responseJson.results.length == 0 ) ?
         Alert.alert('해당 범위 내 선택한 장소가 없습니다') :
          <ActivityIndicator size="large" color="#0000ff" /> ; 
