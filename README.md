@@ -2,10 +2,10 @@
 어디를 가야할지 고민이 될 때, pickmon이 랜덤으로 한 곳을 선별해주는 Android 전용 앱입니다. . <br />
 https://play.google.com/store/apps/details?id=com.jeonjeong.pickmon   <br/>
 
-<img width="200px" src="./assets/pickmon1.jpg">
-<img width="200px;" src="./assets/pickmon2.jpg">
-<img width="200px;" src="./assets/pickmon3.jpg">
 
+![pickmon1](https://github.com/yourchikorita/pickmon/tree/master/assets/pickmon1.jpg | width=200)
+![pickmon1](https://github.com/yourchikorita/pickmon/tree/master/assets/pickmon1.jpg | width=200)
+![pickmon1](https://github.com/yourchikorita/pickmon/tree/master/assets/pickmon1.jpg | width=200)
 <br/>
 
 예) 현재 위치로 부터 800미터 내 cafe 중 랜덤으로 한 곳 검색 후 길찾기
